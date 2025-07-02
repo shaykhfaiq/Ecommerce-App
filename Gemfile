@@ -18,6 +18,21 @@ gem "stimulus-rails"
 gem "cssbundling-rails"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
+# Authentication
+gem 'devise'
+# Roles
+gem 'rolify'
+# Authorization
+gem 'pundit'
+# File Uploads
+gem 'image_processing', '~> 1.2'
+# Stripe for payments (later)
+gem 'stripe'
+# Search (later)
+gem 'searchkick'
+# Seed avatars
+gem 'faker'
+
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
