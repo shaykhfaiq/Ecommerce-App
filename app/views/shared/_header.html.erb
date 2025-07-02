@@ -1,31 +1,51 @@
-<header class="bg-success text-white py-3 shadow-sm">
+<nav class="navbar navbar-expand-md navbar-dark bg-success shadow-sm">
   <div class="container">
-    <div class="row align-items-center gy-2">
 
-      <!-- Logo (Left) -->
-      <div class="col-12 col-md-3 text-center text-md-start">
-        <a href="/" class="navbar-brand fw-bold text-white fs-3">
-          <span style="letter-spacing: 2px; text-shadow: 1px 1px #084c21;">Almora</span>
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold fs-3" href="/" style="letter-spacing: 2px; text-shadow: 1px 1px #084c21;">
+      Almora
+    </a>
+
+    <!-- Hamburger Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+     <!-- Center Search Bar -->
+<form class="mx-auto my-2 my-md-0 position-relative" style="max-width: 400px; width: 100%;">
+  <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
+    <i class="bi bi-search"></i>
+  </span>
+  <input
+    class="form-control rounded-pill ps-5 pe-3 form-control-sm"
+    type="search"
+    placeholder="Search products..." />
+</form>
+
+
+      <!-- Right Side Icons + Button -->
+      <div class="d-flex align-items-center gap-2 ms-auto mt-2 mt-md-0">
+
+        <!-- Wishlist -->
+        <a href="#" class="text-white position-relative">
+          <i class="bi bi-heart-fill fs-5"></i>
         </a>
-      </div>
 
-      <!-- Search (Middle) -->
-      <div class="col-12 col-md-6">
-        <form>
-          <input type="text" class="form-control rounded-pill w-100" placeholder="Search for products..." />
-        </form>
-      </div>
+        <!-- Cart -->
+        <a href="#" class="text-white position-relative">
+          <i class="bi bi-cart-fill fs-5"></i>
+        </a>
 
-      <!-- Buttons (Right) -->
-      <div class="col-12 col-md-3 text-center text-md-end d-flex justify-content-center justify-content-md-end gap-2">
-        <a href="#" class="btn btn-light rounded-pill text-success fw-semibold shadow-sm px-3">
+        <!-- Sign Up -->
+        <a href="#" class="btn btn-sm btn-light text-success fw-semibold rounded-pill px-3 py-1 shadow-sm">
           Sign Up
         </a>
-        <a href="#" class="btn btn-outline-light rounded-pill fw-semibold shadow-sm px-3">
-          Become a Seller
-        </a>
+
       </div>
 
     </div>
   </div>
-</header>
+</nav>
