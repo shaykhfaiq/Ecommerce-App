@@ -1,3 +1,518 @@
-<!-- app/views/dashboard/seller/dashboard/index.html.erb -->
-<h1 class="text-2xl font-bold mb-4">Welcome to Your Seller Dashboard</h1>
-<p>Here you can manage your products, orders, and more.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-green: #22c55e;
+            --light-green: #dcfce7;
+            --dark-green: #16a34a;
+            --success-green: #10b981;
+            --danger-red: #ef4444;
+            --warning-orange: #f59e0b;
+            --info-blue: #3b82f6;
+        }
+
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Optimized Stats Cards */
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.08), transparent);
+            transition: left 0.4s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.12);
+            border-color: var(--primary-green);
+        }
+
+        .stats-card:hover::before {
+            left: 100%;
+        }
+
+        .stats-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .stats-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .stats-label {
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .stats-change {
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .change-positive { color: var(--success-green); }
+        .change-negative { color: var(--danger-red); }
+
+        /* Optimized Chart Cards */
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.08);
+            border-color: var(--light-green);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+
+        /* Smaller Chart Containers */
+        .chart-container-large {
+            position: relative;
+            height: 280px;
+        }
+
+        .chart-container-small {
+            position: relative;
+            height: 220px;
+        }
+
+        /* Country List Styling */
+        .country-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .country-item:hover {
+            background-color: var(--light-green);
+            padding-left: 8px;
+            border-radius: 6px;
+        }
+
+        .country-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .country-flag {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-green);
+        }
+
+        .country-percentage {
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .stats-card {
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+            
+            .chart-card {
+                padding: 15px;
+            }
+
+            .chart-container-large {
+                height: 220px;
+            }
+
+            .chart-container-small {
+                height: 180px;
+            }
+        }
+
+        /* Simplified Loading Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-green);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-1" style="color: #1f2937; font-weight: 700;">Dashboard Overview</h1>
+                <p class="text-muted mb-0" style="font-size: 14px;">Welcome back! Here's what's happening with your store today.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-download me-1"></i>Export
+                </button>
+                <button class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Add Product
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards Row -->
+        <div class="row g-3 mb-4">
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="stats-card fade-in">
+                    <div class="stats-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stats-number">1,247</div>
+                    <div class="stats-label">Total Orders</div>
+                    <div class="stats-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>2.5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="stats-card fade-in">
+                    <div class="stats-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stats-number">856</div>
+                    <div class="stats-label">Products Listed</div>
+                    <div class="stats-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>1.8%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="stats-card fade-in">
+                    <div class="stats-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="stats-number">24</div>
+                    <div class="stats-label">Categories</div>
+                    <div class="stats-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>0.5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6 col-md-6">
+                <div class="stats-card fade-in">
+                    <div class="stats-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stats-number">$52,187</div>
+                    <div class="stats-label">Total Sales</div>
+                    <div class="stats-change change-positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>3.2%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-3">
+            <!-- Product Sales Chart -->
+            <div class="col-12">
+                <div class="chart-card fade-in">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="chart-title">Weekly Sales Overview</h3>
+                        <div class="d-flex gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%;"></div>
+                                <span style="font-size: 12px; color: #6b7280;">Gross Margin</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="width: 10px; height: 10px; background: #f59e0b; border-radius: 50%;"></div>
+                                <span style="font-size: 12px; color: #6b7280;">Revenue</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container-large">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category and Country Charts -->
+            <div class="col-lg-6">
+                <div class="chart-card fade-in">
+                    <h3 class="chart-title">Top Categories</h3>
+                    <div class="chart-container-small">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="chart-card fade-in">
+                    <h3 class="chart-title">Top Regions</h3>
+                    <div class="country-list" style="max-height: 220px; overflow-y: auto;">
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag"></div>
+                                <span>United States</span>
+                            </div>
+                            <span class="country-percentage">24%</span>
+                        </div>
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag" style="background: #10b981;"></div>
+                                <span>Canada</span>
+                            </div>
+                            <span class="country-percentage">18%</span>
+                        </div>
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag" style="background: #06b6d4;"></div>
+                                <span>United Kingdom</span>
+                            </div>
+                            <span class="country-percentage">15%</span>
+                        </div>
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag" style="background: #8b5cf6;"></div>
+                                <span>Germany</span>
+                            </div>
+                            <span class="country-percentage">12%</span>
+                        </div>
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag" style="background: #f59e0b;"></div>
+                                <span>France</span>
+                            </div>
+                            <span class="country-percentage">11%</span>
+                        </div>
+                        <div class="country-item">
+                            <div class="country-name">
+                                <div class="country-flag" style="background: #ef4444;"></div>
+                                <span>Australia</span>
+                            </div>
+                            <span class="country-percentage">10%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Optimized Sales Chart with less data
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        new Chart(salesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Gross Margin',
+                    data: [28, 45, 33, 52, 41, 38, 47],
+                    backgroundColor: '#22c55e',
+                    borderRadius: 6,
+                    maxBarThickness: 35
+                }, {
+                    label: 'Revenue',
+                    data: [37, 52, 43, 58, 48, 42, 55],
+                    backgroundColor: '#f59e0b',
+                    borderRadius: 6,
+                    maxBarThickness: 35
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 800,
+                    easing: 'easeOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f3f4f6'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + 'K';
+                            },
+                            font: {
+                                size: 11
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 11
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Optimized Category Chart with less data
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books', 'Others'],
+                datasets: [{
+                    data: [30, 25, 20, 15, 7, 3],
+                    backgroundColor: [
+                        '#22c55e',
+                        '#3b82f6', 
+                        '#8b5cf6',
+                        '#f59e0b',
+                        '#ef4444',
+                        '#6b7280'
+                    ],
+                    borderWidth: 0,
+                    cutout: '65%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 600,
+                    easing: 'easeOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Simplified loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.animationDelay = (index * 0.1) + 's';
+                }, 50);
+            });
+        });
+    </script>
+</body>
+</html>

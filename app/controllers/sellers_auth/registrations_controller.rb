@@ -11,12 +11,7 @@ class SellersAuth::RegistrationsController < Devise::RegistrationsController
     User
   end
 
-  def new
-    build_resource
-    @user = resource
-    @user.build_seller_profile
-    respond_with resource
-  end
+  
 
   def create
     build_resource(sign_up_params)
