@@ -14,9 +14,16 @@ Rails.application.routes.draw do
     end
   end
 
-  # Seller Dashboard route
+  # Seller Dashboard route and nested resources
   namespace :dashboard do
+    # Dashboard home page
     get 'seller', to: 'seller#index', as: :seller_dashboard
+
+    # Categories and Products CRUD
+    namespace :seller do
+      resources :categories
+      resources :products
+    end
   end
 
   # Root path
