@@ -33,7 +33,7 @@ class SellersAuth::RegistrationsController < Devise::RegistrationsController
         store_slug: resource.full_name.parameterize
       )
       sign_up(resource_name, resource)
-      redirect_to dashboard_seller_root_path, notice: "Welcome, #{resource.full_name}!"
+      redirect_to dashboard_seller_dashboard_path, notice: "Welcome, #{resource.full_name}!"
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -53,6 +53,8 @@ class SellersAuth::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    dashboard_seller_root_path
+    dashboard_seller_dashboard_path
+
+
   end
 end
