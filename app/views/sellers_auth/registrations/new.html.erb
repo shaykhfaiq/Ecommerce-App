@@ -1,0 +1,288 @@
+<%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css", media: "all" %>
+<%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css", media: "all" %>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+  }
+
+  .login-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-card {
+    display: flex;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+    min-height: 650px;
+  }
+
+  .design-section {
+    flex: 1;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    color: white;
+    text-align: center;
+  }
+
+  .geometric-shapes .shape {
+    position: absolute;
+    opacity: 0.3;
+  }
+
+  .shape.circle-1 {
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 15%;
+    left: 20%;
+  }
+
+  .shape.triangle-1 {
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 20px solid #ffffff;
+    top: 30%;
+    right: 25%;
+  }
+
+  .shape.circle-2 {
+    width: 15px;
+    height: 15px;
+    background: #ffffff;
+    border-radius: 50%;
+    bottom: 25%;
+    left: 10%;
+  }
+
+  .shape.triangle-2 {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 28px solid #ffffff;
+    bottom: 10%;
+    right: 20%;
+  }
+
+  .shape.circle-3 {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 70%;
+    right: 10%;
+  }
+
+  .welcome-message h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .welcome-message p {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+
+  .form-section {
+    flex: 1;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+
+  .input-group {
+    position: relative;
+    margin-bottom: 1.3rem;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 1;
+    font-size: 1.1rem;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 1.1rem 1.2rem 1.1rem 3rem;
+    border: none;
+    border-radius: 25px;
+    background-color: #f1f3f4;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  .form-input::placeholder {
+    color: #999;
+  }
+
+  .form-input:focus {
+    outline: none;
+    background-color: #e8eaed;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 1.1rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .login-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+  }
+
+  .bottom-section {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .bottom-section a {
+    color: #059669;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .bottom-section a:hover {
+    color: #10b981;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .login-card {
+      flex-direction: column-reverse;
+      margin: 1rem;
+    }
+
+    .design-section {
+      min-height: 200px;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="login-container">
+  <div class="login-card">
+
+    <!-- Left Side: Design & Text -->
+    <div class="design-section">
+      <div class="geometric-shapes">
+        <div class="shape circle-1"></div>
+        <div class="shape triangle-1"></div>
+        <div class="shape circle-2"></div>
+        <div class="shape triangle-2"></div>
+        <div class="shape circle-3"></div>
+      </div>
+      <div class="welcome-message">
+        <h2>Welcome to Almora</h2>
+        <p>Join us and grow your business effortlessly<br>with powerful tools and a beautiful marketplace.</p>
+      </div>
+    </div>
+
+    <!-- Right Side: Form -->
+    <div class="form-section">
+      <div class="form-container">
+        <h2 class="form-title">Create Account</h2>
+
+        <%= form_with url: sellers_auth_registration_path, scope: :user, local: true do |f| %>
+          <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <%= f.text_field :first_name, class: "form-input", placeholder: "First Name", required: true %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <%= f.text_field :last_name, class: "form-input", placeholder: "Last Name", required: true %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-envelope input-icon"></i>
+            <%= f.email_field :email, class: "form-input", placeholder: "Email", required: true %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-briefcase input-icon"></i>
+            <%= f.email_field :business_email, class: "form-input", placeholder: "Business Email" %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-phone input-icon"></i>
+            <%= f.telephone_field :phone, class: "form-input", placeholder: "Phone Number" %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <%= f.password_field :password, class: "form-input", placeholder: "Password", required: true %>
+          </div>
+
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <%= f.password_field :password_confirmation, class: "form-input", placeholder: "Confirm Password", required: true %>
+          </div>
+
+          <%= f.submit "Sign Up", class: "login-btn" %>
+        <% end %>
+
+        <div class="bottom-section">
+          Already have an account?
+          <%= link_to "Sign In", sellers_auth_login_path %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

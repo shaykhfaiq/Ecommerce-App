@@ -12,12 +12,12 @@
   </head>
 
   <body class="bg-light">
-
-    <%= render "shared/header" %>
+    <% unless controller_path == "sellers/registrations" && action_name == "new" %>
+      <%= render "shared/header" %>
+    <% end %>
 
     <main class="container py-4">
       <%= yield %>
     </main>
-
   </body>
 </html>
