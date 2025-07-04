@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
     # Categories and Products CRUD
     namespace :seller do
-      resources :categories
+      resources :categories 
       resources :products
     end
   end
