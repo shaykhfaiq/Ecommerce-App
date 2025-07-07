@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  # Devise routes for sellers, using custom controller
+  # Devise routes
   devise_for :users, controllers: {
     registrations: 'sellers_auth/registrations'
   }, skip: [:registrations]
 
-  # Custom seller auth routes
   devise_scope :user do
     namespace :sellers_auth, path: 'sellers' do
       get  'register', to: 'registrations#new',    as: :registration
@@ -14,18 +13,18 @@ Rails.application.routes.draw do
     end
   end
 
-  # Seller Dashboard route and nested resources
   namespace :dashboard do
-    # Dashboard home page
+    # Seller dashboard home
     get 'seller', to: 'seller#index', as: :seller_dashboard
 
-    # Categories and Products CRUD
+    # ✅ Proper RESTful seller profile routes
+    resource :seller_profile, only: [:show, :edit, :update]
+
     namespace :seller do
       resources :categories 
       resources :products
     end
   end
 
-  # Root path
   root "home#index"
 end

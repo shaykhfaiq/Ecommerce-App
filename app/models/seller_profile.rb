@@ -3,6 +3,8 @@ class SellerProfile < ApplicationRecord
   belongs_to :user
   has_many :products, dependent: :destroy
   has_many :categories, dependent: :destroy
+  has_one_attached :logo
+
 
   enum status: { active: 0, suspended: 1, pending: 2 }
 end

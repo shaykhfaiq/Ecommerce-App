@@ -1,0 +1,95 @@
+<div class="container my-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <!-- Heading and Edit Link -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-success fw-bold mb-0">Seller Profile</h2>
+        <%= link_to "Edit Profile", edit_dashboard_seller_profile_path, class: "btn btn-success custom-btn" %>
+      </div>
+
+      <!-- Profile Image -->
+      <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center">
+          <% if @profile.logo.attached? %>
+            <%= image_tag @profile.logo, class: "rounded-circle profile-logo" %>
+          <% else %>
+            <i class="fas fa-user-circle fa-7x text-muted"></i>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Profile Fields -->
+      <% fields = {
+        "Store Name" => @profile.store_name,
+        "Store Slug" => @profile.store_slug,
+        "Business Email" => @profile.business_email,
+        "Phone Number" => @profile.phone_number,
+        "Address" => @profile.address,
+        "City" => @profile.city,
+        "State" => @profile.state,
+        "Country" => @profile.country,
+        "Postal Code" => @profile.postal_code,
+        "Description" => @profile.description,
+        "Website" => @profile.website,
+        "Tax ID" => @profile.tax_id,
+        "Verified" => @profile.verified? ? "Yes" : "No",
+        "Status" => @profile.status&.titleize || "Active"
+      } %>
+
+      <% fields.each_slice(2) do |pair| %>
+        <div class="row mb-3">
+          <% pair.each do |label, value| %>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold text-dark"><%= label %></label>
+              <input type="text" class="form-control custom-input" value="<%= value.presence || '-' %>" disabled>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Embedded Styling -->
+<style>
+  .custom-input {
+    border-radius: 10px;
+    border: 1px solid #d1fae5;
+    background-color: #f0fdf4;
+    color: #065f46;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .custom-input:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 0.15rem rgba(34, 197, 94, 0.25);
+    background-color: #ffffff;
+    color: #065f46;
+  }
+
+  .custom-btn {
+    background: linear-gradient(to right, #22c55e, #16a34a);
+    border: none;
+    padding: 10px 24px;
+    font-weight: 600;
+    border-radius: 8px;
+    color: #fff;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .custom-btn:hover {
+    background: linear-gradient(to right, #16a34a, #15803d);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.25);
+  }
+
+  .profile-logo {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #22c55e;
+    padding: 3px;
+    background-color: white;
+  }
+</style>

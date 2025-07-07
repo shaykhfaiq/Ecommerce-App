@@ -3,18 +3,32 @@
   <div class="user-profile-section">
     <div class="user-info">
       <div class="user-details">
+        <!-- ✅ Profile Picture -->
+        <% if current_user&.seller_profile&.logo&.attached? %>
+          <%= image_tag current_user.seller_profile.logo, class: "sidebar-profile-pic" %>
+
+        <% else %>
+          <i class="fas fa-user-circle fa-2x text-muted me-2"></i>
+        <% end %>
+
+        <!-- ✅ Seller Name (Link to Profile) -->
         <div class="user-text">
-          <h6 class="user-name"><%= current_user&.full_name || "Seller Name" %></h6>
+          <h6 class="user-name mb-0">
+            <%= link_to (current_user&.full_name || "Seller Name"), dashboard_seller_profile_path, class: "text-decoration-none text-dark" %>
+          </h6>
         </div>
       </div>
-      <%= button_to destroy_user_session_path, method: :delete, class: "btn logout-btn" do %>
+
+      <!-- ✅ Logout Button -->
+      <%= button_to destroy_user_session_path, method: :delete, class: "btn logout-btn", title: "Logout" do %>
         <i class="fas fa-sign-out-alt"></i>
       <% end %>
     </div>
   </div>
 
-  <!-- Analytics Section -->
+  <!-- Navigation Menu -->
   <nav class="sidebar-nav">
+    <!-- Analytics Section -->
     <div class="nav-section">
       <h6 class="section-title">Analytics</h6>
       <ul class="nav-list">
@@ -60,6 +74,7 @@
   </nav>
 </div>
 
+
 <style>
 /* Sidebar Container */
 .sidebar-container {
@@ -81,6 +96,15 @@
   padding: 20px;
   border-bottom: 1px solid #e5e7eb;
 }
+  .sidebar-profile-pic {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+}
+
+
 
 .user-info {
   display: flex;
