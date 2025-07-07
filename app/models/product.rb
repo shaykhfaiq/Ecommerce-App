@@ -19,7 +19,7 @@ class Product < ApplicationRecord
     return if self.sku.present?
 
     begin
-      self.sku = "ALM-#{SecureRandom.hex(4).upcase}"
+      self.sku = "PRO-#{SecureRandom.hex(4).upcase}"
     end while self.class.exists?(sku: sku)
   end
 end

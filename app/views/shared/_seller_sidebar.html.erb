@@ -13,25 +13,37 @@
     </div>
   </div>
 
-  <!-- Navigation Menu -->
+  <!-- Analytics Section -->
   <nav class="sidebar-nav">
-    <!-- Main Section -->
+    <div class="nav-section">
+      <h6 class="section-title">Analytics</h6>
+      <ul class="nav-list">
+        <li class="nav-item <%= 'active' if current_page?(dashboard_seller_dashboard_path) %>">
+          <%= link_to dashboard_seller_dashboard_path, class: "nav-link" do %>
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Store Management Section -->
     <div class="nav-section">
       <h6 class="section-title">Store Management</h6>
       <ul class="nav-list">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item <%= 'active' if controller_name == 'products' %>">
+          <%= link_to dashboard_seller_products_path, class: "nav-link" do %>
             <i class="fas fa-box"></i>
             <span>Products</span>
-          </a>
+          <% end %>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item <%= 'active' if controller_name == 'categories' %>">
+          <%= link_to dashboard_seller_categories_path, class: "nav-link" do %>
             <i class="fas fa-tags"></i>
             <span>Categories</span>
-          </a>
+          <% end %>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="fas fa-shopping-cart"></i>
             <span>Orders</span>
@@ -41,51 +53,6 @@
           <a href="#" class="nav-link">
             <i class="fas fa-chart-line"></i>
             <span>Sales</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Analytics Section -->
-    <div class="nav-section">
-      <h6 class="section-title">Analytics</h6>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-chart-bar"></i>
-            <span>Reports</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Other Section -->
-    <div class="nav-section">
-      <h6 class="section-title">Other</h6>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-envelope"></i>
-            <span>Messages</span>
-            <span class="badge">3</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-question-circle"></i>
-            <span>Help</span>
           </a>
         </li>
       </ul>

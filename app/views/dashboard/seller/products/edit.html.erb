@@ -1,0 +1,96 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-success fw-bold">Edit Product</h2>
+    <%= link_to "← Back to Products", dashboard_seller_products_path, class: "btn btn-outline-success" %>
+  </div>
+
+  <%= form_with model: [:dashboard, :seller, @product], html: { multipart: true }, class: "bg-white p-4 rounded shadow-sm", local: true do |f| %>
+    <% if @product.errors.any? %>
+      <div class="alert alert-danger">
+        <strong>Please fix the following errors:</strong>
+        <ul>
+          <% @product.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= f.label :title, class: "form-label fw-semibold text-success" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "Enter product title" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :description, class: "form-label fw-semibold text-success" %>
+      <%= f.text_area :description, class: "form-control", rows: 4, placeholder: "Write a detailed description" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :price, class: "form-label fw-semibold text-success" %>
+      <%= f.number_field :price, step: 0.01, class: "form-control", placeholder: "Enter price in PKR" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :stock, class: "form-label fw-semibold text-success" %>
+      <%= f.number_field :stock, class: "form-control", placeholder: "Enter available stock" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :category_id, "Category", class: "form-label fw-semibold text-success" %>
+      <%= f.collection_select :category_id, @categories, :id, :name, {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :is_active, "Product Status", class: "form-label fw-semibold text-success" %>
+      <%= f.select :is_active, [["Active", true], ["Inactive", false]], {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :images, "Upload New Images", class: "form-label fw-semibold text-success" %>
+      <%= f.file_field :images, multiple: true, class: "form-control" %>
+      <small class="text-muted">Leave blank to keep existing images.</small>
+    </div>
+
+    <% if @product.images.attached? %>
+      <div class="mb-3">
+        <h5 class="fw-bold text-success">Existing Images:</h5>
+        <div class="d-flex flex-wrap gap-3">
+          <% @product.images.each do |image| %>
+            <div>
+              <%= image_tag url_for(image), class: "img-thumbnail", style: "width: 100px; height: auto;" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="d-flex justify-content-end mt-4">
+      <%= f.submit "Update Product", class: "btn btn-success px-4" %>
+    </div>
+  <% end %>
+</div>
+
+<!-- ✅ Embedded Styling -->
+<style>
+  .form-control:focus {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+  }
+
+  .btn-success:hover {
+    background-color: #16a34a;
+    border-color: #15803d;
+  }
+
+  .btn-outline-success:hover {
+    background-color: #d1fae5;
+    color: #15803d;
+  }
+
+  .alert-danger {
+    border: 1px solid #dc2626;
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+</style>
